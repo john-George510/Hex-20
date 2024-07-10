@@ -62,11 +62,6 @@ def parse_and_write_packets(data, header_bytes, packet_format, output_file):
     packet_count = 0
     index = 0
     columns_written = False
-
-    # Initialize tqdm progress bar
-    # pbar = tqdm(desc="Processing packets", unit="packet")
-
-    # with tqdm(total=len(data), desc="Processing packets", unit="byte") as pbar:
     
     print("Size of data is: ",len(data))
     with tqdm(total=len(data), desc="Processing packets", unit="byte") as pbar:
@@ -106,7 +101,8 @@ def parse_and_write_packets(data, header_bytes, packet_format, output_file):
 
                 # Convert packet data to DataFrame and write to CSV
                 packet_df = pd.DataFrame([packet])
-
+                
+                # Write the DataFrame to CSV file (append if columns are already written)
                 if not columns_written:
                     packet_df.to_csv(output_file, mode='a', index=False)
                     columns_written = True
@@ -123,7 +119,6 @@ def parse_and_write_packets(data, header_bytes, packet_format, output_file):
                 prev_index = index  # Update previous index
                 index += 1  # Move to the next byte
 
-    # pbar.close()  # Close the progress bar
     print(f"Processed {packet_count} packets and wrote to {output_file}")
 
 
