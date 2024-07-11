@@ -2,6 +2,11 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 
+# Configuration
+file_path = "data.csv"
+data_field = "data"
+Fs = 1e3
+
 def calculate_allan_deviation(data, Fs):
     """
     Calculate the Allan deviation for a given dataset and sampling frequency.
@@ -55,12 +60,15 @@ def plot_allan_deviation(tau, adev):
     plt.title('Allan Deviation Plot')
     plt.show()
 
-# Example usage
-file_path = 'output2.csv'
-Fs = 100
-data_field='MagData1'
+if __name__ == '__main__':
+    # Read data from CSV
+    df = pd.read_csv(file_path)
 
-df = pd.read_csv(file_path)
-data = df[data_field].to_numpy()
-tau, adev = calculate_allan_deviation(data, Fs)
-plot_allan_deviation(tau, adev)
+    # Extract data from the specified field
+    data = df[data_field].to_numpy()
+
+    # Calculate Allan deviation
+    tau, adev = calculate_allan_deviation(data, Fs)
+
+    # Plot the Allan deviation
+    plot_allan_deviation(tau, adev)

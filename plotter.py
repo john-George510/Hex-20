@@ -1,6 +1,11 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 
+# Replace with your actual file path and desired columns
+filename = "your_data.csv"
+columns_to_plot = ["column1", "column2", "column3", "column4"]
+x_axis_to_use = "x_axis_column_name" # Optional, specify x-axis column name in function call below
+
 # Function to plot generic data from a CSV
 def plot_data(filename, columns, labels=None, colors=['blue', 'green', 'red', 'black'], figsize=(15, 10), x_axis=None):
   """
@@ -51,10 +56,5 @@ def plot_data(filename, columns, labels=None, colors=['blue', 'green', 'red', 'b
   # Adjust layout and display the plot
   plt.tight_layout()
   plt.show()
-
-
-# Replace with your actual file path and desired columns
-filename = "ads_data.csv"
-columns_to_plot = ["MagData1","MagData2","MagData3"]
 
 plot_data(filename, columns_to_plot)
