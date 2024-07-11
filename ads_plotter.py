@@ -21,8 +21,8 @@ plt.figure(figsize=(15, 10))
 plt.subplot(3, 1, 1)
 plt.plot(df.index, df['MagData1'], label='mag_x', color='blue')
 plt.xlabel('Index')
-plt.ylabel('Magnitude X')
-plt.title('Magnitude X vs Index')
+plt.ylabel('Magnetometer X')
+plt.title('Magnetometer X vs Index')
 plt.legend()
 plt.ylim(mean_mag1 -50, mean_mag1 + 50)  # Set y-axis based on mean and std
 
@@ -30,8 +30,8 @@ plt.ylim(mean_mag1 -50, mean_mag1 + 50)  # Set y-axis based on mean and std
 plt.subplot(3, 1, 2)
 plt.plot(df.index, df['MagData2'], label='mag_y', color='green')
 plt.xlabel('Index')
-plt.ylabel('Magnitude Y')
-plt.title('Magnitude Y vs Index')
+plt.ylabel('Magnetometer Y')
+plt.title('Magnetometer Y vs Index')
 plt.legend()
 plt.ylim(mean_mag2-50, mean_mag2+50)  # Set y-axis based on mean and std
 
@@ -39,8 +39,8 @@ plt.ylim(mean_mag2-50, mean_mag2+50)  # Set y-axis based on mean and std
 plt.subplot(3, 1, 3)
 plt.plot(df.index, df['MagData3'], label='mag_z', color='red')
 plt.xlabel('Index')
-plt.ylabel('Magnitude Z')
-plt.title('Magnitude Z vs Index')
+plt.ylabel('Magnetometer Z')
+plt.title('Magnetometer Z vs Index')
 plt.legend()
 plt.ylim(mean_mag3 - 50, mean_mag3 + 50)  # Set y-axis based on mean and std
 
