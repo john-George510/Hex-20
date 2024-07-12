@@ -212,6 +212,9 @@ def plot_allan_deviation_arw(tau, adev, N, title="Allan Deviation with Angle Ran
   # Display the plot
   plt.show()
 
+import matplotlib.pyplot as plt
+import numpy as np
+
 def plot_allan_deviation_noise(tau, adev, noise_coeffs={}, 
                           title="Allan Deviation with Noise Parameters", xlabel=r'$\tau$', ylabel=r'$\sigma(\tau)$',
                           legend_labels={'ADEV':r'$\sigma$', 'ARW':r'$\sigma_N$', 'RRW':r'$\sigma_K$', 'BI':r'$\sigma_B$'}):
@@ -221,56 +224,47 @@ def plot_allan_deviation_noise(tau, adev, noise_coeffs={},
   Args:
       tau (numpy.ndarray): Array of time constants.
       adev (numpy.ndarray): Array of Allan deviation values.
-      noise_coeffs (dict, optional): Dictionary containing noise coefficients.
-          Keys can be 'N' (angle random walk), 'K' (rate random walk), or 'B' (bias instability).
-          Values are the corresponding noise coefficients.
+      noise_coeffs (dict, optional): Dictionary containing noise coefficients and reference taus.
+          Keys are 'N' (angle random walk), 'K' (rate random walk), or 'B' (bias instability).
+          Values are tuples containing (coefficient, reference tau, noise contribution line).
       title (str, optional): Title for the plot. Defaults to "Allan Deviation with Noise Parameters".
       xlabel (str, optional): Label for the x-axis. Defaults to "\\tau" (LaTeX for tau).
       ylabel (str, optional): Label for the y-axis. Defaults to "\\sigma(\\tau)" (LaTeX for sigma(tau)).
       legend_labels (tuple, optional): Labels for the legend entries.
-
-  Raises:
-      ValueError: If no noise coefficients are provided in the dictionary.
   """
 
-  # Check if at least one noise coefficient is provided
-#   if not noise_coeffs:
-#       raise ValueError("At least one noise coefficient (N, K, or B) must be provided in the dictionary.")
+  if not noise_coeffs:
+     title = "Allan Deviation Plot"
 
-  # Calculate noise contribution lines (if coefficients are provided)
+  # Calculate noise contribution lines and marker points
   lines = []
-  points=[]
+  points = []
   for noise_type, noise_data in noise_coeffs.items():
+      if noise_type == 'B':
+        coeff, tau_ref, line, scfB = noise_data
+      else:
+        coeff, tau_ref, line = noise_data  
       if noise_type == 'N':
-        coeff= noise_data[0]
-        tauN = noise_data[1]  # Reference tau for N calculation
-        lineN = noise_data[2]  # ARW contribution
-        lines.append((tau, lineN, 'ARW', '--'))  # Add label for ARW
-        points.append((tauN, coeff, 'N','o','red'))  # Add label for N
+          lines.append((tau, line, 'ARW', '--'))
+          points.append((tau_ref, coeff, 'N', 'o', 'red'))
       elif noise_type == 'K':
-        coeff = noise_data[0]
-        tauK = noise_data[1]  # Reference tau for K calculation
-        lineK = noise_data[2]  # RRW contribution
-        lines.append((tau, lineK, 'RRW', '-.'))  # Add label for RRW
-        points.append((tauK, coeff, 'K','o','green'))  # Add label for K
+          lines.append((tau, line, 'RRW', '-.'))
+          points.append((tau_ref, coeff, 'K', 'o', 'green'))
       elif noise_type == 'B':
-        coeff = noise_data[0]
-        tauB = noise_data[1]  # Reference tau for B calculation
-        lineB = noise_data[2]  # BI contribution (constant line)
-        scfB = noise_data[3]  # Scaling factor for BI
-        lines.append((tau, lineB, 'BI', ':'))  # Add label for BI
-        points.append((tauB, coeff * scfB, 'B','o','blue'))  # Add label for B
+        #   scfB = noise_data[3]  # Scaling factor for BI
+          lines.append((tau, line, 'BI', ':'))
+          points.append((tau_ref, coeff * scfB , 'B', 'o', 'blue'))
       else:
           raise ValueError(f"Invalid noise type: {noise_type}. Supported types are 'N', 'K', and 'B'.")
 
   # Create the plot
-  plt.figure()
+  plt.figure(figsize=(12,8))
   plt.loglog(tau, adev, label=legend_labels['ADEV'])
   for tau_i, line_i, label_i, style_i in lines:
       plt.loglog(tau_i, line_i, style_i, label=legend_labels[label_i])
 
   for tau_i, line_i, label_i, style_i, color_i in points:
-      plt.loglog(tau_i, line_i, style_i,color=color_i)
+      plt.loglog(tau_i, line_i, style_i, color=color_i)
       plt.text(tau_i, line_i, f'{label_i}={line_i:.2e}', fontsize=12)
 
   # Set plot labels and title
