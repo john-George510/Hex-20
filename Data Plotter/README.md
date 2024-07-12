@@ -1,55 +1,78 @@
-## Generic CSV Data Plotting Script
+# Generic CSV Data Plotting Script
 
 This script provides a versatile tool to visualize data from multiple columns in a CSV file. It offers customization options for labels, colors, and the x-axis.
 
-### Requirements
+## Table of Contents
 
-* **Python:** Ensure you have Python installed on your system. You can check by running `python --version` or `python3 --version` in your terminal. If not installed, download it from [https://www.python.org/downloads/](https://www.python.org/downloads/).
-* **Libraries:** Make sure you have the `pandas` and `matplotlib` libraries installed in your Python environment. You can install them using pip:
+- [Requirements](#requirements)
+- [Setup](#setup)
+- [Function Description](#function-description)
+- [Example Usage](#example-usage)
+- [Contributing](#contributing)
+- [License](#license)
 
-```bash
-pip install pandas matplotlib
-```
+## Requirements
 
-2. **Replace placeholders:**
-   - Update `filename` with the path to your CSV file containing the data.
-   - Modify `columns_to_plot` with the list of column names you want to visualize (e.g., `["ColData1", "ColData2", "ColData3"]`).
-   - Optionally, provide custom labels for each column in the `labels` list (same order as `columns_to_plot`). If not provided, column names will be used as labels.
-   - Optionally, specify the column name for the x-axis in `x_axis_to_use` (default uses DataFrame index).
+Ensure you have the following requirements met before running the script:
+
+- **Python:** Make sure Python is installed on your system. Verify by running `python --version` or `python3 --version` in your terminal. If Python is not installed, download it from [python.org](https://www.python.org/downloads/).
+
+- **Libraries:** The script requires `pandas` and `matplotlib`. Install them using pip:
+
+    ```bash
+    pip install pandas matplotlib
+    ```
+
+## Setup
+
+1. **Prepare the CSV file:** Ensure your CSV file is formatted correctly and accessible. The file should contain the data you wish to plot.
+
+2. **Modify the script:** 
+   - Update the `filename` variable with the path to your CSV file.
+   - Update the `columns_to_plot` list with the names of the columns you want to visualize, for example, `["ColData1", "ColData2", "ColData3"]`.
+   - Optionally, provide custom labels for each column in the `labels` list. If no custom labels are provided, column names will be used.
+   - Optionally, specify the column name for the x-axis in `x_axis_to_use`. If not specified, the DataFrame index will be used by default.
+
 3. **Run the script:**
-   - Execute the script using `python plotter.py` (replace with your actual script filename).
+   - Execute the script using:
 
-### Function Description
+    ```bash
+    python plotter.py
+    ```
 
-The script defines a function named `plot_data` that accepts the following arguments:
+## Function Description
 
-- `filename`: Path to the CSV file (string).
-- `columns`: List of column names to be plotted (list of strings).
-- `labels` (optional): List of labels for each plot (list of strings, defaults to column names).
-- `colors` (optional): List of colors for each plot (list of strings, defaults to ['blue', 'green', 'red', 'black']).
-- `figsize` (optional): Size of the figure as a tuple (width, height) in inches (defaults to (15, 10)).
-- `x_axis` (optional): Name of the column to be used as the x-axis (string, defaults to DataFrame index).
+The script includes a function named `plot_data`, which is responsible for reading the CSV file and generating the plots.
 
-The function performs the following steps:
+### `plot_data` Function
 
-  - Reads the CSV data using `pandas`.
-  - Creates a figure with subplots for each column.
-  - Plots the data from each column with labels, colors, grids, and legends.
+The `plot_data` function accepts the following parameters:
 
-### Example Usage
+- **filename** (str): Path to the CSV file.
+- **columns** (list of str): List of column names to be plotted.
+- **labels** (list of str, optional): Custom labels for each plot. Defaults to column names.
+- **colors** (list of str, optional): Colors for each plot. Defaults to `['blue', 'green', 'red', 'black']`.
+- **figsize** (tuple, optional): Size of the figure in inches (width, height). Defaults to `(15, 10)`.
+- **x_axis** (str, optional): Column name to use for the x-axis. Defaults to DataFrame index.
+
+### Steps Performed
+
+1. Reads the CSV data using `pandas`.
+2. Creates a figure with subplots for each column specified.
+3. Plots the data from each column with the specified labels and colors.
+4. Adds grid lines and legends to the plots.
+
+## Example Usage
+
+Below is an example of how to use the `plot_data` function in your script:
 
 ```python
-# Replace with your data file path
+
+# Example usage
 filename = "your_data.csv"
-
-# Columns to plot (assuming data in these columns)
 columns_to_plot = ["ColData1", "ColData2", "ColData3"]
-
-# Optional custom labels
 labels = ["Custom Label 1", "Custom Label 2", "Custom Label 3"]
+x_axis_to_use = "TimeColumn"
 
-# Optional x-axis column name (if not using index)
-x_axis_to_use = "TimeColumn"  
-
-# Call the function to generate the plot
 plot_data(filename, columns_to_plot, labels=labels, x_axis=x_axis_to_use)
+```
