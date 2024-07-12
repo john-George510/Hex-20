@@ -6,8 +6,8 @@ This script provides a versatile tool to visualize data from multiple columns in
 
 - [Requirements](#requirements)
 - [Setup](#setup)
+- [Configuration File](#configuration-file)
 - [Function Description](#function-description)
-- [Example Usage](#example-usage)
 
 ## Requirements
 
@@ -25,11 +25,7 @@ Ensure you have the following requirements met before running the script:
 
 1. **Prepare the CSV file:** Ensure your CSV file is formatted correctly and accessible. The file should contain the data you wish to plot.
 
-2. **Modify the script:** 
-   - Update the `filename` variable with the path to your CSV file.
-   - Update the `columns_to_plot` list with the names of the columns you want to visualize, for example, `["ColData1", "ColData2", "ColData3"]`.
-   - Optionally, provide custom labels for each column in the `labels` list. If no custom labels are provided, column names will be used.
-   - Optionally, specify the column name for the x-axis in `x_axis_to_use`. If not specified, the DataFrame index will be used by default.
+2. **Create a configuration file:** Create a `config.json` file to specify the data file path, columns to plot, labels, and the x-axis column name.
 
 3. **Run the script:**
    - Execute the script using:
@@ -37,6 +33,23 @@ Ensure you have the following requirements met before running the script:
     ```bash
     python plotter.py
     ```
+
+## Configuration File
+
+Create a `config.json` file with the following structure:
+
+The x_axis_column_name field is optional. If it is not specified in the JSON, the index of the data will be used as the x-axis.
+
+If the output_file field is not specified in the JSON, the input filename (data.csv) will be used as the default output image name.
+```json
+{
+  "filename": "path/to/your/data.csv",
+  "columns_to_plot": ["ColData1", "ColData2", "ColData3"],
+  "labels": ["Custom Label 1", "Custom Label 2", "Custom Label 3"],
+  "x_axis_column_name": "TimeColumn",
+  "output_file":"output.png"
+}
+```
 
 ## Function Description
 
@@ -59,18 +72,3 @@ The `plot_data` function accepts the following parameters:
 2. Creates a figure with subplots for each column specified.
 3. Plots the data from each column with the specified labels and colors.
 4. Adds grid lines and legends to the plots.
-
-## Example Usage
-
-Below is an example of how to use the `plot_data` function in your script:
-
-```python
-
-# Example usage
-filename = "your_data.csv"
-columns_to_plot = ["ColData1", "ColData2", "ColData3"]
-labels = ["Custom Label 1", "Custom Label 2", "Custom Label 3"]
-x_axis_to_use = "TimeColumn"
-
-plot_data(filename, columns_to_plot, labels=labels, x_axis=x_axis_to_use)
-```
