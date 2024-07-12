@@ -5,11 +5,9 @@ This script calculates the Allan deviation for a given dataset and analyzes diff
 ## Table of Contents
 
 - [Requirements](#requirements)
+- [Configuration File](#configuration-file)
 - [Setup](#setup)
 - [Function Descriptions](#function-descriptions)
-- [Usage](#usage)
-- [Configuration File](#configuration-file)
-- [Example](#example)
 
 ## Requirements
 
