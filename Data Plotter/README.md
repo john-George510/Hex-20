@@ -8,8 +8,6 @@ This script provides a versatile tool to visualize data from multiple columns in
 - [Setup](#setup)
 - [Function Description](#function-description)
 - [Example Usage](#example-usage)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Requirements
 
