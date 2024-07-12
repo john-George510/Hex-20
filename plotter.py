@@ -2,8 +2,9 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 # Replace with your actual file path and desired columns
-filename = "your_data.csv"
-columns_to_plot = ["column1", "column2", "column3", "column4"]
+filename = "2024_07_12_09_59_28_tlm.csv"
+columns_to_plot = ["MagData1", "MagData2", "MagData3"]
+labels = ["Magnetometer X", "Magnetometer Y", "Magnetometer Z"]
 x_axis_to_use = "x_axis_column_name" # Optional, specify x-axis column name in function call below
 
 # Function to plot generic data from a CSV
@@ -46,15 +47,18 @@ def plot_data(filename, columns, labels=None, colors=['blue', 'green', 'red', 'b
 
   # Loop through each column and plot
   for i, col in enumerate(columns):
+      x_axis = x_axis if x_axis else 'index'
       plt.subplot(len(columns), 1, i + 1)  # Adjust based on number of columns
       plt.plot(x_data, df[col], label=labels[i], color=colors[i % len(colors)])
-      plt.xlabel(x_axis if x_axis else 'index')  # Use the specified x-axis label
-      plt.ylabel(col)
-      plt.title(f'{col} vs {x_axis}')
-      plt.legend()
+      plt.xlabel(x_axis)  # Use the specified x-axis label
+      plt.ylabel(labels[i])
+      plt.grid(True)
+      plt.ylim(-100,100)
+      plt.title(f'{labels[i]} vs {x_axis}')
+      plt.legend(loc='upper right')
 
   # Adjust layout and display the plot
   plt.tight_layout()
   plt.show()
 
-plot_data(filename, columns_to_plot)
+plot_data(filename, columns_to_plot,labels=labels)
