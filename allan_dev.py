@@ -49,17 +49,6 @@ def calculate_allan_deviation(data, Fs):
 
     return tau, adev
 
-def plot_allan_deviation(adev, tau):
-    """Plot the Allan deviation."""
-    plt.figure(figsize=(10, 6))
-    plt.loglog(tau, adev)
-    plt.grid()
-    plt.gca().set_aspect('equal')
-    plt.xlabel('Tau (s)')
-    plt.ylabel('Allan deviation')
-    plt.title('Allan Deviation Plot')
-    plt.show()
-
 def find_angle_random_walk(adev, tau,slope = -0.5):
     """
     This function finds the angle random walk coefficient (N) from Allan deviation data.
@@ -172,49 +161,6 @@ def find_bias_instability(tau, adev, slope=0):
   return B, tauB, lineB, scfB
 
 
-def plot_allan_deviation_arw(tau, adev, N, title="Allan Deviation with Angle Random Walk",
-                             xlabel=r'$\tau$', ylabel=r'$\sigma(\tau)$', legend_labels=(r'$\sigma$', r'$\sigma_N$')):
-  """
-  Plots the Allan deviation data with the noise contribution line from angle random walk.
-
-  Args:
-      tau (numpy.ndarray): Array of time constants.
-      adev (numpy.ndarray): Array of Allan deviation values.
-      N (float): Angle random walk coefficient.
-      title (str, optional): Title for the plot. Defaults to "Allan Deviation with Angle Random Walk".
-      xlabel (str, optional): Label for the x-axis. Defaults to "\\tau" (LaTeX for tau).
-      ylabel (str, optional): Label for the y-axis. Defaults to "\\sigma(\\tau)" (LaTeX for sigma(tau)).
-      legend_labels (tuple, optional): Labels for the legend entries. Defaults to ("\\sigma", "\\sigma_N").
-  """
-
-  # Calculate the noise contribution line
-  tauN = 1  # Reference tau for N calculation
-  lineN = N / np.sqrt(tau)
-
-  # Create the plot
-  plt.figure()
-  plt.loglog(tau, adev, label=legend_labels[0])  # Use legend_labels for sigma
-  plt.loglog(tau, lineN, '--', label=legend_labels[1])  # Use legend_labels for sigma_N
-  plt.loglog(tauN, N, 'o',label='N')
-
-  # Set plot labels and title
-  plt.title(title)
-  plt.xlabel(xlabel)
-  plt.ylabel(ylabel)
-
-  # Add legend and text annotation
-  plt.legend()
-
-  # Enable grid and set equal aspect ratio
-  plt.grid(True)
-  plt.gca().set_aspect('equal')
-
-  # Display the plot
-  plt.show()
-
-import matplotlib.pyplot as plt
-import numpy as np
-
 def plot_allan_deviation_noise(tau, adev, noise_coeffs={}, 
                           title="Allan Deviation with Noise Parameters", xlabel=r'$\tau$', ylabel=r'$\sigma(\tau)$',
                           legend_labels={'ADEV':r'$\sigma$', 'ARW':r'$\sigma_N$', 'RRW':r'$\sigma_K$', 'BI':r'$\sigma_B$'}):
@@ -251,7 +197,6 @@ def plot_allan_deviation_noise(tau, adev, noise_coeffs={},
           lines.append((tau, line, 'RRW', '-.'))
           points.append((tau_ref, coeff, 'K', 'o', 'green'))
       elif noise_type == 'B':
-        #   scfB = noise_data[3]  # Scaling factor for BI
           lines.append((tau, line, 'BI', ':'))
           points.append((tau_ref, coeff * scfB , 'B', 'o', 'blue'))
       else:
@@ -293,14 +238,9 @@ if __name__ == '__main__':
     # Calculate Allan deviation
     tau, adev = calculate_allan_deviation(data, Fs)
 
-    # Plot the Allan deviation
-    # plot_allan_deviation(tau, adev)
-
     # Find the angle random walk coefficient
     N,tauN,lineN = find_angle_random_walk(adev, tau)
     print(f"Angle Random Walk Coefficient (N): {N}")
-    # Plot the Allan deviation with angle random walk
-    # plot_allan_deviation_arw(tau, adev, N)
 
     # Find the rate random walk coefficient
     K,tauK,lineK = find_rate_random_walk(adev, tau)
@@ -312,6 +252,7 @@ if __name__ == '__main__':
 
     # Plot the Allan deviation with noise parameters
     noise_coeffs = {'N': (N,tauN,lineN), 'K': (K,tauK,lineK), 'B': (B,tauB,lineB,scfB)}
-    plot_allan_deviation_noise(tau, adev, noise_coeffs)
+    # Update the function call to include noise_coeffs:
+    plot_allan_deviation_noise(tau, adev)
 
 
